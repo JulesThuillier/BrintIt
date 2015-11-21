@@ -1,2 +1,0 @@
-# BrintIt
-Hello World !
