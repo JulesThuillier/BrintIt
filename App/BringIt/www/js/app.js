@@ -1,0 +1,87 @@
+// Ionic Starter App
+
+// angular.module is a global place for creating, registering and retrieving Angular modules
+// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
+// the 2nd parameter is an array of 'requires'
+// 'starter.services' is found in services.js
+// 'starter.controllers' is found in controllers.js
+angular.module('app', ['ionic', 'satellizer', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
+
+.run(function($ionicPlatform) {
+  $ionicPlatform.ready(function() {
+    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+    // for form inputs)
+    if(window.cordova && window.cordova.plugins.Keyboard) {
+      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+    }
+    if(window.StatusBar) {
+      // org.apache.cordova.statusbar required
+      StatusBar.styleDefault();
+    }
+  });
+})
+
+.constant('SERVER', {
+  url: 'http://159.203.8.64:3000'
+})
+
+.config(function($httpProvider) {
+    //Enable cross domain calls
+    $httpProvider.defaults.useXDomain = true;
+})
+
+.config(function($authProvider, SERVER) {
+    
+    $authProvider.baseUrl = SERVER.url;
+    $authProvider.authHeader = 'Authorization';
+    $authProvider.authToken = 'Bearer';
+    $authProvider.storageType = 'localStorage';
+  //  $authProvider.httpInterceptor = false;
+
+    if (ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
+      $authProvider.cordova = true;
+    }
+    
+    $authProvider.facebook({
+      clientId: 'Facebook App ID'
+    });
+
+    $authProvider.google({
+      clientId: '762548628265-oketfgkinmk4annlk9jlppn1teueb859.apps.googleusercontent.com'
+    });
+
+    $authProvider.github({
+      clientId: 'GitHub Client ID'
+    });
+
+    $authProvider.linkedin({
+      clientId: 'LinkedIn Client ID'
+    });
+
+    $authProvider.instagram({
+      clientId: 'Instagram Client ID'
+    });
+
+    $authProvider.yahoo({
+      clientId: 'Yahoo Client ID / Consumer Key'
+    });
+
+    $authProvider.live({
+      clientId: 'Microsoft Client ID'
+    });
+
+    $authProvider.twitch({
+      clientId: 'Twitch Client ID'
+    });
+
+    // No additional setup required for Twitter
+
+    $authProvider.oauth2({
+      name: 'foursquare',
+      url: '/auth/foursquare',
+      clientId: 'Foursquare Client ID',
+      redirectUri: window.location.origin,
+      authorizationEndpoint: 'https://foursquare.com/oauth2/authenticate',
+    });
+
+  });

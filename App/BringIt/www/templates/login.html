@@ -1,0 +1,35 @@
+<ion-view title="Login" ng-controller="loginCtrl">
+    <ion-content padding="true" class="has-header">
+        <div ng-if="!isAuthenticated()">
+            <form class="list" ng-submit="submit()">
+                <ion-list>
+                    <label class="item item-input">
+                        <input type="text" placeholder="Email" ng-model="user.email">
+                    </label>
+                    <label class="item item-input">
+                        <input type="password" placeholder="Password" ng-model="user.password">
+                    </label>
+                </ion-list>
+                <div class="spacer" style="height: 40px;"></div>
+                <button class="button button-stable button-block " type="submit" ng-click="login(user)">Log in</button>
+
+                <button class="button ion-social-facebook button-block " ng-click="authenticate('facebook')"> Sign in with Facebook</button>
+                <button class="button ion-social-googleplus button-block " ng-click="authenticate('google')"> Sign in with Google</button>
+                <button class="button ion-social-linkedin button-block " ng-click="authenticate('linkedin')"> Sign in with LinkedIn</button>
+                <button class="button ion-social-twitter button-block " ng-click="authenticate('twitter')"> Sign in with Twitter</button>
+
+                <a class="button button-positive button-clear button-block" href="#/signup">Or create an account</a>
+            </form>
+        </div>
+        <div ng-if="isAuthenticated()">
+          <div class="card">
+            <div class="item item-text-wrap">
+              You are currently logged in.
+            </div>
+          </div>
+          <button ng-click="logout()" class="button button-block">
+            Log Out
+          </button>
+        </div>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,8 @@
+{
+    "jscodehints.detectedExclusions": [
+        "/Users/julesthuillier/Documents/Project/BringIt/App/BringIt/www/js/directives.js",
+        "/Users/julesthuillier/Documents/Project/BringIt/App/BringIt/www/js/services.js",
+        "/Users/julesthuillier/Documents/Project/BringIt/App/BringIt/www/js/routes.js",
+        "/Users/julesthuillier/Documents/Project/BringIt/App/BringIt/www/js/controllers.js"
+    ]
+}
