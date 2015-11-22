@@ -1,1 +1,6 @@
 /* Empty. Add your own CSS if you like */
+
+.fitContent {
+    height:auto;
+    overflow:visible;   
+}
