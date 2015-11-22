@@ -1,4 +1,4 @@
-angular.module('app.controllers', [])
+angular.module('app.controllers', ['ngCordova'])
   
 .controller('myEventsCtrl', function($scope) {
 
@@ -78,9 +78,9 @@ angular.module('app.controllers', [])
 
 })
    
-.controller('addPeopleCtrl',['$scope', 'Event', function($scope, $cordovaContacts, $ionicPlatform, Event) {
+.controller('addPeopleCtrl', function($scope, $cordovaContacts, $ionicPlatform) {
     $scope.addContact = function() {
-    $cordovaContacts.save($scope.contactForm).then(function(result) {
+    navigator.contacts.save($scope.contactForm).then(function(result) {
       // Contact saved
     }, function(err) {
       // Contact error
@@ -88,45 +88,76 @@ angular.module('app.controllers', [])
   };
 
   $scope.getAllContacts = function() {
-    $cordovaContacts.find().then(function(allContacts) { //omitting parameter to .find() causes all contacts to be returned
+    navigator.contacts.find().then(function(allContacts) { //omitting parameter to .find() causes all contacts to be returned
       $scope.contacts = allContacts;
     })
   };
 
   $scope.findContactsBySearchTerm = function (searchTerm) {
-    var opts = {                                           //search options
-      filter : searchTerm,                                 // 'Bob'
-      multiple: true,                                      // Yes, return any contact that matches criteria
-      fields:  [ 'displayName', 'name' ],                   // These are the fields to search for 'bob'.
-      desiredFields: [id]    //return fields.
-    };
+    if(searchTerm.length >= 3){
+        function onSuccess(contacts) {
+             
+            // Filtering contacts to display only those with phone number, and search only those who start with the search term
+            var contactFiltered= [];
+            for (var i = 0; i < contacts.length; i++) {
+                
+                if(contacts[i].phoneNumbers != null){
+                    var contactAddedToList = false;
+                    if(contacts[i].displayName != null){
+                        console.log(contacts[i].displayName);
+                        if(contacts[i].displayName.startsWith(searchTerm)){
+                            contactFiltered.push(contacts[i]);
+                            contactAddedToList = true;
+                        }
+                    }
+                    if((contacts[i].name != null) && !contactAddedToList){
+                        if(contacts[i].name.familyName != null && contacts[i].name.familyName.startsWith(searchTerm)){
+                            contactFiltered.push(contacts[i]);
+                            contactAddedToList = true;   
+                        }
+                        else if(contacts[i].name.formatted != null && contacts[i].name.formatted.startsWith(searchTerm)){
+                            contactFiltered.push(contacts[i]);
+                            contactAddedToList = true;   
+                        }
+                        else if(contacts[i].name.givenName != null && contacts[i].name.givenName.startsWith(searchTerm)){
+                            contactFiltered.push(contacts[i]);
+                            contactAddedToList = true;   
+                        }
+                    }
+                }
+            }
+            console.log(contactFiltered);
+            $scope.contacts = contactFiltered;
+        };
 
- /*   if ($ionicPlatform.isAndroid()) {
-      opts.hasPhoneNumber = true;         //hasPhoneNumber only works for android.
-    };
-*/
-    $cordovaContacts.find(opts).then(function (contactsFound) {
-      //$scope.contacts = contactsFound;
-        return contactsFound;
-    });
+        function onError(contactError) {
+            console.log('onError! ' + contactError);
+            $scope.contacts = [];
+        };
+      
+        var options      = new ContactFindOptions();
+        options.filter   = searchTerm;
+        options.multiple = true;
+        options.desiredFields = [navigator.contacts.fieldType.id, navigator.contacts.fieldType.displayName, navigator.contacts.fieldType.name , navigator.contacts.fieldType.phoneNumbers, navigator.contacts.fieldType.photos ];
+        options.hasPhoneNumber = true;
+//        var fields       = [navigator.contacts.fieldType.searchTerm, navigator.contacts.fieldType.name];
+        var fields       = [navigator.contacts.fieldType.displayName, navigator.contacts.fieldType.name];
+        
+        
+        navigator.contacts.find(fields, onSuccess, onError, options);
+    }
+    else if (searchTerm.length <= 1) {
+        $scope.contacts = [];;
+    }
   };
 
   $scope.pickContactUsingNativeUI = function () {
-    $cordovaContacts.pickContact().then(function (contactPicked) {
+    navigator.contacts.pickContact().then(function (contactPicked) {
       $scope.contact = contactPicked;
     })
   }
   
-  $scope.search = function() {
-
-    	$scope.findContactsBySearchTerm($scope.data.search).then(
-    		function(matches) {
-    			$scope.data.contacts = matches;
-    		}
-    	)
-    }
-  
-}])
+})
    
 .controller('thingsToBringCtrl', function($scope) {
 
