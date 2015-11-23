@@ -195,7 +195,7 @@ angular.module('app.controllers', ['ngCordova'])
             var valueToPush = { };
             valueToPush.name = $scope.data.item;
             valueToPush.quantity = 1;
-            $scope.data.items.push(valueToPush);
+            $scope.data.items.unshift(valueToPush);
             console.log("'" + $scope.data.item + "' added to list.");
             $scope.data.item = "";
         }
@@ -208,9 +208,12 @@ angular.module('app.controllers', ['ngCordova'])
     };
     
     $scope.quantityMinus = function(item) {
-        console.log("decreasing quantity");
-        $scope.data.items[item].quantity--;
-      // item.quantity--;
+        if($scope.data.items[item].quantity == 1){
+            $scope.data.items.splice(item, 1);
+        }
+        else {
+            $scope.data.items[item].quantity--;
+        }
     };
 })
    

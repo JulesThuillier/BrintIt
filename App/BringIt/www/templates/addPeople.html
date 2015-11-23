@@ -5,27 +5,24 @@
           <div class="item item-input-inset">
             <label class="item-input-wrapper">
                 <i class="icon ion-search placeholder-icon"></i>
-              <input type="search" placeholder="Search" ng-change="findContactsBySearchTerm()" ng-model="data.searchterm">
+                <input type="search" placeholder="Search" ng-change="findContactsBySearchTerm()" ng-model="data.searchterm">
             </label>
             <button class="button button-small" ng-click="clearSearch()">
               Cancel
             </button>
           </div>
 
-        
         <ion-scroll class="fitContent" style="max-height: 200px;">
-        <div class="list">
-        
+            <div class="list">
                 <a ng-repeat="contact in data.contacts track by $index" class="item item-avatar" href="#" ng-click="invite(contact)">
                   <img ng-src="{{contact.photos[0].value}}">
                   <h2>{{contact.displayName}}</h2>
                   <p>{{contact.phoneNumbers[0].value}}</p>
                 </a>
-
-
-        </div>
+            </div>
         </ion-scroll>
-        <div class="item item-divider">
+        
+        <div class="item item-divider" style="background-color: #b31f6f;">
         Invited
         </div>
         
@@ -38,5 +35,6 @@
                 </ion-item>
             </ion-list>
         </ion-scroll>
+        
     </ion-content>
 </ion-view>
