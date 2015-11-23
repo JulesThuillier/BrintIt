@@ -29,7 +29,7 @@
         Invited
         </div>
         
-        <ion-scroll style="height: auto;">
+        <ion-scroll style="min-height: 100%;" >
             <ion-list>
                 <ion-item ng-repeat="contactSelected in data.contactsSelected track by $index" class="item item-avatar">
                   <img ng-src="{{contactSelected.photos[0].value}}">
