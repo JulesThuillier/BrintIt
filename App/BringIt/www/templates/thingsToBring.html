@@ -1,16 +1,39 @@
-<ion-view title="Things to Bring">
+<ion-view title="Things to Bring" ng-controller="thingsToBringCtrl">
     <ion-content padding="false" class="has-header">
-        <div class="item item-input-inset">
-            <label class="item-input-wrapper">
-                <i class="icon ion-ios-pricetags-outline placeholder-icon"></i>
-              <input type="search" placeholder="Chips, Vine and Fun !" ng-change="findContactsBySearchTerm()" ng-model="data.searchterm">
-            </label>
-            <button class="button button-small button-assertive icon-right ion-plus-round" ng-click="addItem()">Add</button>
-        </div>
-        <ion-list>
-            <ion-item>Item 1</ion-item>
-            <ion-item>Item 2</ion-item>
-            <ion-item>Item 3</ion-item>
-        </ion-list>
-    </ion-content>
+        <form>
+            <div class="item item-input-inset">
+                <label class="item-input-wrapper">
+                    <i class="icon ion-ios-pricetags-outline placeholder-icon"></i>
+                  <input type="search" placeholder="Chips, Vine and Fun !" ng-model="data.item" on-return="addItem()" ng-enter="addItem()">
+                </label>
+                <button class="button button-small button-assertive icon-right ion-plus-round" ng-click="addItem()">Add</button>
+            </div>
+        </form>
+        
+      <!--  <ion-list show-delete="shouldShowDelete"
+          show-reorder="shouldShowReorder"
+          can-swipe="listCanSwipe"> -->
+        <div class="list" show-delete="shouldShowDelete"
+                  show-reorder="shouldShowReorder"
+                  can-swipe="listCanSwipe">
+          <ion-item ng-repeat="myitem in data.items track by $index"
+                    class="my-item" href="#">
+            <a style="float: left;" class="button button-icon icon ion-minus-circled" ng-click="data.items.splice($index, 1)"></a>
+            <div style="float: left; padding: 16px 49px 16px 16px;">{{myitem.name}} </div>
+            <div style="float: right; padding: 0px 70px 0px 0px;">
+                <div style="float:left;">
+                    <a class="button button-icon icon ion-ios-minus-outline" ng-click="quantityMinus($index)" href="#"></a>
+                </div>
+                <div style="padding: 16px 10px 16px 10px; float:left;">
+                    <h2>{{myitem.quantity}}</h2>
+                </div>
+                <div style="float:left;">
+                    <a class="button button-icon icon ion-ios-plus-outline" ng-click="quantityPlus($index)" href="#"></a>
+                </div>   
+            </div>   
+              
+          </ion-item>
+         </div>
+     <!--   </ion-list>  -->
+            </ion-content>
 </ion-view>

@@ -181,7 +181,37 @@ angular.module('app.controllers', ['ngCordova'])
 })
    
 .controller('thingsToBringCtrl', function($scope) {
-
+    $scope.data = {
+        item: '',
+        items: []
+    };
+    
+    $scope.shouldShowDelete = true;
+    $scope.shouldShowReorder = false;
+    $scope.listCanSwipe = true
+    
+    $scope.addItem = function() {
+        if($scope.data.item != null && $scope.data.item != ""){
+            var valueToPush = { };
+            valueToPush.name = $scope.data.item;
+            valueToPush.quantity = 1;
+            $scope.data.items.push(valueToPush);
+            console.log("'" + $scope.data.item + "' added to list.");
+            $scope.data.item = "";
+        }
+    };
+    
+    $scope.quantityPlus = function(item) {
+        console.log("increasing quantity");
+        $scope.data.items[item].quantity++;
+     //  item.quantity++;
+    };
+    
+    $scope.quantityMinus = function(item) {
+        console.log("decreasing quantity");
+        $scope.data.items[item].quantity--;
+      // item.quantity--;
+    };
 })
    
 .controller('bringSomethingCtrl', function($scope) {

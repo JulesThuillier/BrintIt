@@ -4,3 +4,7 @@
     height:auto;
     overflow:visible;   
 }
+
+.my-item .item-content {
+  padding: 0 !important;
+}
