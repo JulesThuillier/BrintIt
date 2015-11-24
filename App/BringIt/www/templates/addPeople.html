@@ -12,7 +12,7 @@
             </button>
           </div>
 
-        <ion-scroll class="fitContent" style="max-height: 200px;">
+        <ion-scroll style="max-height: 200px;">
             <div class="list">
                 <a ng-repeat="contact in data.contacts track by $index" class="item item-avatar" href="#" ng-click="invite(contact)">
                   <img ng-src="{{contact.photos[0].value}}">

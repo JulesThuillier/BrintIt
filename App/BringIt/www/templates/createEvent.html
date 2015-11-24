@@ -1,22 +1,49 @@
-<ion-view title="Describe your Event">
-    <ion-content padding="true" class="has-header">
+<ion-view title="Describe your Event" ng-controller="createEventCtrl">
+    <ion-content padding="false" class="has-header">
+        
+        <div class="list card">
+            <div class="item item-divider item-icon-left">
+                <i class="icon ion-home"></i>
+            General Informations
+            </div>
+
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Event's title</span>
+                <input type="text" placeholder="My awesome party !">
+            </label>
+
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Descrition</span> 
+                <textarea rows="4" placeholder="Descrition"></textarea>
+            </label>
+        </div>
+        
+        <div class="list card">
+            <div class="item item-divider item-icon-left">
+                <i class="icon ion-calendar"></i>
+            Date and Location
+            </div>
+
+            <label class="item item-input item-stacked-label">
+                <ionic-datepicker input-obj="datepickerObject">
+                    <span class="input-label">Date & Time</span>
+                    <input type="text" placeholder="Date & Time">
+                </ionic-datepicker>
+            </label>
+
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Address</span> 
+                <input type="text" placeholder="Address">
+            </label>
+        </div>
 
         <form class="list">
-            <label class="item item-input">
-                <span class="input-label">Title</span>
-                <input type="text" placeholder="Event's Title">
-            </label>
-            <label class="item item-input">
-                <span class="input-label">Date</span>
-                <input type="date" placeholder="Event's date">
-            </label>
-            <label class="item item-input">
-                <span class="input-label">Description</span><textarea placeholder="What's your event ? "> </textarea>
-            </label>
-            <label class="item item-input">
-                <span class="input-label">Address</span>
-                <input type="text" placeholder="">
-            </label>
+
+            <ionic-timepicker input-obj="timePickerObject">
+              <button class="button button-block button-positive overflowShow">
+                <standard-time-meridian etime='timePickerObject.inputEpochTime'>Select time</standard-time-meridian>
+              </button>
+            </ionic-timepicker>
         </form>
 
         <button class="button button-calm button-block  button-full">Send invitations !</button>
