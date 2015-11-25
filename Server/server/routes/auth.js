@@ -55,6 +55,7 @@ function createJWT(user) {
  |--------------------------------------------------------------------------
  */
 router.post('/login', function(req, res) {
+    console.log('Get login request');
     var db = req.db;
     var User = db.get('usercollection');
     console.log("Hello Login");
@@ -81,16 +82,18 @@ router.post('/login', function(req, res) {
 router.post('/signup', function(req, res) {
     var db = req.db;
     var User = db.get('usercollection');
+	console.log(req.body);
   User.findOne({ email: req.body.email }, function(err, existingUser) {
     if (existingUser) {
+	console.log(existingUser);
       return res.status(409).send({ message: 'Email is already taken' });
     }
-      
+	console.log("LOG2");      
     var password = req.body.password
     bcrypt.genSalt(10, function(err, salt) {
     bcrypt.hash(password, salt, function(err, hash) {
     //  password = hash;
-        
+	        
         User.insert({
         "firstName" : req.body.firstName,
         "lastName": req.body.lastName,
