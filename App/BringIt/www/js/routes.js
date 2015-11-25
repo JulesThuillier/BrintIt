@@ -15,9 +15,9 @@ angular.module('app.routes', [])
       templateUrl: 'templates/myEvents.html',
       controller: 'myEventsCtrl',
       onEnter: function($state, $auth){
-    /*  if(!$auth.isAuthenticated()){
+      if(!$auth.isAuthenticated()){
         $state.go('login');
-      }*/
+      }
       }
     })
         
@@ -145,6 +145,6 @@ angular.module('app.routes', [])
     ;
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/events');
+  $urlRouterProvider.otherwise('/login');
 
 });

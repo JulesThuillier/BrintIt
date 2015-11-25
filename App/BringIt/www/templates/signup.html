@@ -1,6 +1,6 @@
 <ion-view title="Signup" ng-controller="signupCtrl">
     <ion-content padding="false" scroll="false" class="has-header">
-        <form class="list">
+        <form class="list" ng-submit="signup(user)" method="post">
             <ion-list>
                 <label class="item item-input">
                     <input type="text" placeholder="First Name" ng-model="user.firstName">
@@ -15,7 +15,7 @@
                     <input type="password" placeholder="Password" ng-model="user.password">
                 </label>
             </ion-list>
-            <button class="button button-stable button-block"  ng-click="signup(user)">Sign up</button>
+            <button class="button button-stable button-block"   type="submit">Sign up</button>
         </form>
     </ion-content>
 </ion-view>

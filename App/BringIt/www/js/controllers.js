@@ -52,11 +52,26 @@ angular.module('app.controllers', ['ngCordova', 'ionic-timepicker'])
 })
 
 
-.controller('signupCtrl', function($scope, $auth, $ionicPopup, $state) {
+.controller('signupCtrl', function($scope, $auth, $ionicPopup, $state, $http, SERVER) {
+    
+    $scope.user = {
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: ''
+    };
 
     $scope.signup = function(user) {
-      //  console.log("Singup for " + user.firstName + " " + user.lastName + "  Mail : " + user.email)
-      $auth.signup(user)
+        console.log($scope.user);
+        
+        
+    $http.post(SERVER.url + "/auth/signup", user).then(function (res){
+            console.log(res.data);
+            
+        });
+        
+        
+    /*  $auth.signup(user)
           .then(function() {
               $ionicPopup.alert({
                 title: 'Success',
@@ -70,7 +85,7 @@ angular.module('app.controllers', ['ngCordova', 'ionic-timepicker'])
                 content: response.data ? response.data || response.data.message : response
               })
 
-            });
+            });*/
     };
 })
    
@@ -104,7 +119,7 @@ angular.module('app.controllers', ['ngCordova', 'ionic-timepicker'])
         console.log('No date selected');
       } else {
         console.log('Selected date is : ', val)
-        $scope.timePickerObject.showTimePicker($scope.timePickerObject, $ionicPopup);
+        showTimePicker($scope.timePickerObject, $ionicPopup);
       }
     };
     
