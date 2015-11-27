@@ -15,9 +15,9 @@ angular.module('app.routes', [])
       templateUrl: 'templates/myEvents.html',
       controller: 'myEventsCtrl',
       onEnter: function($state, $auth){
-    /*  if(!$auth.isAuthenticated()){
+      if(!$auth.isAuthenticated()){
         $state.go('login');
-      }*/
+      }
       }
     })
         

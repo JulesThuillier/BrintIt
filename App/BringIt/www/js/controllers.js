@@ -103,20 +103,25 @@ angular.module('app.controllers', ['ngCordova', 'ionic-timepicker'])
     };
     
     var date = new Date();
+    
+    $scope.sendInvitations = function() {
+        console.log("Send invits");
+        EventCreator.sendInvitations();
+    }
 
-  function timePickerCallback(val) {
+    function timePickerCallback(val) {
       if (typeof (val) === 'undefined') {
         console.log('Time not selected');
       } else {
-          
+
         var selectedTime = new Date(val * 1000);
         date.setUTCHours(selectedTime.getUTCHours());
         date.setUTCMinutes(selectedTime.getUTCMinutes());
           console.log(date.toJSON());
         $scope.details.datetime = date.getUTCDate() + '/'+ (date.getUTCMonth()+1) + '/'+ date.getUTCFullYear() + "   " + date.getUTCHours() + 'h'+ date.getUTCMinutes();
       }
-  }
-    
+    }
+
     
     $scope.slots = $rootScope.$new(true);
     $scope.slots.epochTime = 12600;
@@ -168,16 +173,23 @@ angular.module('app.controllers', ['ngCordova', 'ionic-timepicker'])
         closeOnSelect: false //Optional
     };
 
-    $scope.updateEvent = function() {
-        EventCreator.title = $scope.details.title;
-        EventCreator.descrition = $scope.details.descrition;
-        EventCreator.date = date.toJson();
-        EventCreator.address = $scope.details.address;
+    $scope.setTitle = function() {
+        EventCreator.setTitle($scope.details.title);
     };
     
-    $scope.sendInvitations = function() {
-        EventCreator.sendInvitations();
-    }
+    $scope.setDescription = function() {
+        EventCreator.setDescription($scope.details.descrition);
+    };
+    
+    $scope.setDate = function() {
+        EventCreator.setDate(date.toJson());
+    };
+    
+    $scope.setAddress = function() {
+        EventCreator.setAddress($scope.details.address);
+    };
+    
+    
 })
    
 .controller('addPeopleCtrl', function($scope, $cordovaContacts, $ionicPlatform, EventCreator) {

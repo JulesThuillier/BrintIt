@@ -18,7 +18,7 @@
                       can-swipe="listCanSwipe">
               <ion-item ng-repeat="myitem in data.items track by $index"
                         class="my-item" href="#">
-                <a style="float: left; color:#ef473a !important;" class="button button-icon icon ion-minus-circled" ng-click="removeItem"></a>
+                <a style="float: left; color:#ef473a !important;" class="button button-icon icon ion-minus-circled" ng-click="removeItem()"></a>
                 <div style="float: left; padding: 16px 16px 16px 16px;">{{myitem.name}} </div>
                 <div style="float: right; padding: 0px 0px 0px 0px;">
                     <div style="float:left;">

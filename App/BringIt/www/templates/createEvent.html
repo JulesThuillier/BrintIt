@@ -9,12 +9,12 @@
 
             <label class="item item-input item-stacked-label">
                 <span class="input-label">Event's title</span>
-                <input type="text" placeholder="My awesome party !" ng-model="details.title" ng-change="updateEvent">
+                <input type="text" placeholder="My awesome party !" ng-model="details.title" ng-change="setTitle()">
             </label>
 
             <label class="item item-input item-stacked-label">
                 <span class="input-label">Descrition</span> 
-                <textarea rows="4" placeholder="Descrition" ng-model="details.description" ng-change="updateEvent"></textarea>
+                <textarea rows="4" placeholder="Descrition" ng-model="details.description" ng-change="setDescription()"></textarea>
             </label>
         </div>
         
@@ -27,17 +27,17 @@
             <label class="item item-input item-stacked-label">
                 <ionic-datepicker input-obj="datepickerObject">
                     <span class="input-label">Date & Time</span>
-                    <input type="text" placeholder="Date & Time" ng-model="details.datetime" ng-change="updateEvent" ng-readonly="true">
+                    <input type="text" placeholder="Date & Time" ng-model="details.datetime" ng-change="setDate()" ng-readonly="true">
                 </ionic-datepicker>
             </label>
 
             <label class="item item-input item-stacked-label">
                 <span class="input-label">Address</span> 
-                <input type="text" placeholder="Address" ng-model="details.address" ng-change="updateEvent">
+                <input type="text" placeholder="Address" ng-model="details.address" ng-change="setAddress()">
             </label>
         </div>
 
-        <button class="button button-calm button-block  button-full">Send invitations !</button>
+        <button class="button button-calm button-block button-full" ng-click="sendInvitations()">Send invitations !</button>
         
     </ion-content>
 </ion-view>

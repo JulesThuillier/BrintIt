@@ -41,6 +41,8 @@ app.use(function(req,res,next){
     next();
 });
 
+app.use(cors());
+/*
 app.use(function (req, res, next){
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
@@ -48,7 +50,7 @@ app.use(function (req, res, next){
     res.header('Access-Control-Allow-Credentials', 'true');
 
     next();
-})
+})*/
 
 
 // We are going to protect /api routes with JWT

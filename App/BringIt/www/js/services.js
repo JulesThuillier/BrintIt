@@ -68,13 +68,31 @@ angular.module('app.services', [])
     if(!user) return false;
     event.people.splice(user, 1);
   }
-  
+
+    event.setTitle(title) = function() {
+        event.title = title;
+    };
+
+    event.setDescription(description) = function() {
+        event.description = description;
+    };
+
+    event.setDate(date) = function() {
+        event.date = date;
+    };
+
+    event.setAddress(address) = function() {
+        event.address = address;
+    };
+    
   // Send invitations
   event.sendInvitations = function() {
+      console.log("Factory Send invits");
     this.sendEventToDB();
   }
   
   event.sendEventToDB = function(){
+      console.log("Factory upload event to DB");
       var parameter = JSON.stringify(event);
       $http.post(SERVER.url + "/events/new", parameter, {headers: {'Content-Type': 'application/json'} }).
       success(function(data){
