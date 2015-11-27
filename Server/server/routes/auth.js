@@ -55,6 +55,7 @@ function createJWT(user) {
  |--------------------------------------------------------------------------
  */
 router.post('/login', function(req, res) {
+    console.log('Get login request');
     var db = req.db;
     var User = db.get('usercollection');
     console.log("Hello Login");
@@ -90,7 +91,7 @@ router.post('/signup', function(req, res) {
     bcrypt.genSalt(10, function(err, salt) {
     bcrypt.hash(password, salt, function(err, hash) {
     //  password = hash;
-        
+	        
         User.insert({
         "firstName" : req.body.firstName,
         "lastName": req.body.lastName,
