@@ -15,9 +15,9 @@ angular.module('app.routes', [])
       templateUrl: 'templates/myEvents.html',
       controller: 'myEventsCtrl',
       onEnter: function($state, $auth){
-      if(!$auth.isAuthenticated()){
+    /*  if(!$auth.isAuthenticated()){
         $state.go('login');
-      }
+      }*/
       }
     })
         
@@ -59,11 +59,11 @@ angular.module('app.routes', [])
     
       
         
-    .state('eventCreatorTab.addPeople', {
+    .state('eventCreatorTab.createEventAddPeople', {
       url: '/createeventaddpeople',
       views: {
         'tab5': {
-          templateUrl: 'templates/addPeople.html',
+          templateUrl: 'templates/createEventAddPeople.html',
           controller: 'addPeopleCtrl'
         }
       }
@@ -77,7 +77,7 @@ angular.module('app.routes', [])
       url: '/createeventbringlist',
       views: {
         'tab6': {
-          templateUrl: 'templates/thingsToBring.html',
+          templateUrl: 'templates/createEventShoppingList.html',
           controller: 'thingsToBringCtrl'
         }
       }
@@ -145,6 +145,6 @@ angular.module('app.routes', [])
     ;
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/login');
+  $urlRouterProvider.otherwise('/events');
 
 });

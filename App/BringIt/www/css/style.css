@@ -2,17 +2,10 @@
 
 .fitContent {
     height:auto;
-    overflow:visible;   
+    overflow:hidden;
+    position: relative;
 }
 
 .my-item .item-content {
   padding: 0 !important;
-}
-
-.scroll-view{
-  position: absolute;
-  top: 55.3125px;
-  bottom: 0;
-  left: 0;
-  right: 0;
 }

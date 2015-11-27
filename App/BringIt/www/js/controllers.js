@@ -89,37 +89,59 @@ angular.module('app.controllers', ['ngCordova', 'ionic-timepicker'])
     };
 })
    
-.controller('createEventCtrl', function($scope, $ionicPopup) {
+
+
+
+.controller('createEventCtrl', function($scope, $rootScope, $ionicPopup, EventCreator) {
     
-    function timePickerCallback(val) {
+
+    $scope.details = {
+        title: '',
+        description: '',
+        datetime: '',
+        address: ''
+    };
+    
+    var date = new Date();
+
+  function timePickerCallback(val) {
       if (typeof (val) === 'undefined') {
         console.log('Time not selected');
       } else {
+          
         var selectedTime = new Date(val * 1000);
-        console.log('Selected epoch is : ', val, 'and the time is ', selectedTime.getUTCHours(), ':', selectedTime.getUTCMinutes(), 'in UTC');
+        date.setUTCHours(selectedTime.getUTCHours());
+        date.setUTCMinutes(selectedTime.getUTCMinutes());
+          console.log(date.toJSON());
+        $scope.details.datetime = date.getUTCDate() + '/'+ (date.getUTCMonth()+1) + '/'+ date.getUTCFullYear() + "   " + date.getUTCHours() + 'h'+ date.getUTCMinutes();
       }
-    }
+  }
     
-    $scope.timePickerObject = {
-        inputEpochTime: ((new Date()).getHours() * 60 * 60),  //Optional
-        step: 15,  //Optional
-        format: 12,  //Optional
-        titleLabel: 'Select your time',  //Optional
-        setLabel: 'Set',  //Optional
-        closeLabel: 'Close',  //Optional
-        setButtonType: 'button-positive',  //Optional
-        closeButtonType: 'button-stable',  //Optional
-        callback: function (val) {    //Mandatory
-        timePickerCallback(val);
-        }
-    };
+    
+    $scope.slots = $rootScope.$new(true);
+    $scope.slots.epochTime = 12600;
+    $scope.slots.format = 24;
+    $scope.slots.step = 15;
+    $scope.slots.callback = timePickerCallback;
+    $scope.slots.titleLabel = 'Select your time';  //Optional
+    $scope.slots.setLabel = 'Set';  //Optional
+    $scope.slots.closeLabel = 'Close2';  //Optional
+    $scope.slots.setButtonType = 'button-positive';  //Optional
+    $scope.slots.closeButtonType = 'button-stable';  //Optional
+    
     
     var datePickerCallback = function (val) {
       if (typeof(val) === 'undefined') {
         console.log('No date selected');
       } else {
-        console.log('Selected date is : ', val)
-        showTimePicker($scope.timePickerObject, $ionicPopup);
+          
+        date.setUTCFullYear(val.getUTCFullYear());
+        date.setUTCMonth(val.getUTCMonth());
+        date.setUTCDate(val.getUTCDate());
+          
+        $scope.details.datetime = date.getUTCDate() + '/'+ (date.getUTCMonth()+1) + '/'+ date.getUTCFullYear() + "   " + date.getUTCHours() + 'h'+ date.getUTCMinutes();
+          
+        showTimePicker($scope.slots, $ionicPopup);
       }
     };
     
@@ -137,8 +159,8 @@ angular.module('app.controllers', ['ngCordova', 'ionic-timepicker'])
         showTodayButton: 'true', //Optional
         modalHeaderColor: 'bar-positive', //Optional
         modalFooterColor: 'bar-positive', //Optional
-        from: new Date(2012, 8, 2), //Optional
-        to: new Date(2018, 8, 25),  //Optional
+        from: new Date(), //Optional
+        to: new Date(2020, 8, 25),  //Optional
         callback: function (val) {  //Mandatory
             datePickerCallback(val);
         },
@@ -146,9 +168,19 @@ angular.module('app.controllers', ['ngCordova', 'ionic-timepicker'])
         closeOnSelect: false //Optional
     };
 
+    $scope.updateEvent = function() {
+        EventCreator.title = $scope.details.title;
+        EventCreator.descrition = $scope.details.descrition;
+        EventCreator.date = date.toJson();
+        EventCreator.address = $scope.details.address;
+    };
+    
+    $scope.sendInvitations = function() {
+        EventCreator.sendInvitations();
+    }
 })
    
-.controller('addPeopleCtrl', function($scope, $cordovaContacts, $ionicPlatform) {
+.controller('addPeopleCtrl', function($scope, $cordovaContacts, $ionicPlatform, EventCreator) {
     
     $scope.data = {
         searchterm: '',
@@ -156,14 +188,22 @@ angular.module('app.controllers', ['ngCordova', 'ionic-timepicker'])
         contactsSelected: []
     };
 
+    $scope.shouldShowDelete = false;
+    $scope.listCanSwipe = true
     
     var contactsSelected = [];
-    console.log("Hello");
-    
+
     $scope.invite = function(contact) {
-        contactsSelected.push(contact);
+        contactsSelected.unshift(contact);
         $scope.data.contactsSelected = contactsSelected;
-  };
+        EventCreator.addInvited(contact.displayName, contact.phoneNumbers[0].value);
+    };
+    
+    $scope.uninvite = function(item){
+      if(!item) return false;
+      EventCreator.removeInvited(item);
+      $scope.data.items.splice(item, 1);
+    };
 
     $scope.addContact = function() {
     navigator.contacts.save($scope.contactForm).then(function(result) {
@@ -178,7 +218,8 @@ angular.module('app.controllers', ['ngCordova', 'ionic-timepicker'])
       $scope.contacts = allContacts;
     })
   };
-
+    
+ // TODO update find algorithm quality and return (displayname / first and last name, split multi phone number, email...)
   $scope.findContactsBySearchTerm = function () {
       console.log($scope.data.searchterm);
     if($scope.data.searchterm.length >= 3){
@@ -246,11 +287,12 @@ angular.module('app.controllers', ['ngCordova', 'ionic-timepicker'])
     navigator.contacts.pickContact().then(function (contactPicked) {
       $scope.contact = contactPicked;
     })
-  }
-  
+  };
+
+    
 })
    
-.controller('thingsToBringCtrl', function($scope) {
+.controller('thingsToBringCtrl', function($scope, EventCreator) {
     $scope.data = {
         item: '',
         items: []
@@ -260,6 +302,7 @@ angular.module('app.controllers', ['ngCordova', 'ionic-timepicker'])
     $scope.shouldShowReorder = false;
     $scope.listCanSwipe = true
     
+    // Add new item
     $scope.addItem = function() {
         if($scope.data.item != null && $scope.data.item != ""){
             var valueToPush = { };
@@ -268,23 +311,36 @@ angular.module('app.controllers', ['ngCordova', 'ionic-timepicker'])
             $scope.data.items.unshift(valueToPush);
             console.log("'" + $scope.data.item + "' added to list.");
             $scope.data.item = "";
+            
+            EventCreator.addItemShoppingList(valueToPush.name, valueToPush.quantity);
         }
     };
     
+    // Remove Item
+    $scope.removeItem = function(item) {
+        EventCreator.removeItemShoppingList(item);
+        $scope.data.items.splice(item, 1);
+    };
+    
+    // Increase item quantity
     $scope.quantityPlus = function(item) {
         console.log("increasing quantity");
         $scope.data.items[item].quantity++;
-     //  item.quantity++;
+        EventCreator.updateItemQuantityShoppingList(item, $scope.data.items[item].quantity);
     };
     
+    // Decrease item quantity
     $scope.quantityMinus = function(item) {
         if($scope.data.items[item].quantity == 1){
+            EventCreator.removeItemShoppingList(item);
             $scope.data.items.splice(item, 1);
         }
         else {
             $scope.data.items[item].quantity--;
+            EventCreator.updateItemQuantityShoppingList(item, $scope.data.items[item].quantity);
         }
     };
+    
 })
    
 .controller('bringSomethingCtrl', function($scope) {

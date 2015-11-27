@@ -9,12 +9,12 @@
 
             <label class="item item-input item-stacked-label">
                 <span class="input-label">Event's title</span>
-                <input type="text" placeholder="My awesome party !">
+                <input type="text" placeholder="My awesome party !" ng-model="details.title" ng-change="updateEvent">
             </label>
 
             <label class="item item-input item-stacked-label">
                 <span class="input-label">Descrition</span> 
-                <textarea rows="4" placeholder="Descrition"></textarea>
+                <textarea rows="4" placeholder="Descrition" ng-model="details.description" ng-change="updateEvent"></textarea>
             </label>
         </div>
         
@@ -27,25 +27,17 @@
             <label class="item item-input item-stacked-label">
                 <ionic-datepicker input-obj="datepickerObject">
                     <span class="input-label">Date & Time</span>
-                    <input type="text" placeholder="Date & Time">
+                    <input type="text" placeholder="Date & Time" ng-model="details.datetime" ng-change="updateEvent" ng-readonly="true">
                 </ionic-datepicker>
             </label>
 
             <label class="item item-input item-stacked-label">
                 <span class="input-label">Address</span> 
-                <input type="text" placeholder="Address">
+                <input type="text" placeholder="Address" ng-model="details.address" ng-change="updateEvent">
             </label>
         </div>
 
-        <form class="list">
-
-            <ionic-timepicker input-obj="timePickerObject">
-              <button class="button button-block button-positive overflowShow">
-                <standard-time-meridian etime='timePickerObject.inputEpochTime'>Select time</standard-time-meridian>
-              </button>
-            </ionic-timepicker>
-        </form>
-
         <button class="button button-calm button-block  button-full">Send invitations !</button>
+        
     </ion-content>
 </ion-view>

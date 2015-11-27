@@ -84,19 +84,20 @@ function showTimePicker (scope, $ionicPopup) {
 
     $ionicPopup.show({
       templateUrl: 'time-picker-12-hour.html',
-      title: '<strong>12-Hour Format</strong>',
+      title: '<strong>'+scope.titleLabel+'</strong>',
       subTitle: '',
       scope: scope,
       buttons: [
         {
-          text: 'Close',
+          text: scope.closeLabel,
+          type: scope.closeButtonType,
           onTap: function (e) {
             scope.callback(undefined);
           }
         },
         {
-          text: 'Set',
-          type: 'button-positive',
+          text: scope.setLabel,
+          type: scope.setButtonType,
           onTap: function (e) {
             scope.loadingContent = true;
 
@@ -127,19 +128,20 @@ function showTimePicker (scope, $ionicPopup) {
 
     $ionicPopup.show({
       templateUrl: 'time-picker-24-hour.html',
-      title: '<strong>24-Hour Format</strong>',
+      title: '<strong>'+scope.titleLabel+'</strong>',
       subTitle: '',
       scope: scope,
       buttons: [
         {
-          text: 'Close',
+          text: scope.closeLabel,
+          type: scope.closeButtonType,
           onTap: function (e) {
             scope.callback(undefined);
           }
         },
         {
-          text: 'Set',
-          type: 'button-positive',
+          text: scope.setLabel,
+          type: scope.setButtonType,
           onTap: function (e) {
 
             scope.loadingContent = true;
