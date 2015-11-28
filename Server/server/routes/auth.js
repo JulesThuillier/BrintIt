@@ -492,12 +492,17 @@ router.post('/facebook', function(req, res) {
             if (!user) {
               return res.status(400).send({ message: 'User not found' });
             }
-            user.facebook = profile.id;
-            user.picture = user.picture || 'https://graph.facebook.com/v2.3/' + profile.id + '/picture?type=large';
-            user.displayName = user.displayName || profile.name;
-            user.save(function() {
-              var token = createJWT(user);
-              res.send({ token: token });
+            User.insert({
+            "facebook" : profile.id,
+            "picture": 'https://graph.facebook.com/' + profile.id + '/picture?type=large',
+            "email": profile.email,
+            "firstName" : profile.first_name,
+            "lastName": profile.last_name
+        }, function(err, result) {
+              if (err) {
+                res.status(500).send({ message: err.message });
+              }
+              res.send({ token: createJWT(result) });
             });
           });
         });
@@ -508,14 +513,19 @@ router.post('/facebook', function(req, res) {
             var token = createJWT(existingUser);
             return res.send({ token: token });
           }
-          var user = new User();
-          user.facebook = profile.id;
-          user.picture = 'https://graph.facebook.com/' + profile.id + '/picture?type=large';
-          user.displayName = profile.name;
-          user.save(function() {
-            var token = createJWT(user);
-            res.send({ token: token });
-          });
+            
+        User.insert({
+            "facebook" : profile.id,
+            "picture": 'https://graph.facebook.com/' + profile.id + '/picture?type=large',
+            "email": profile.email,
+            "firstName" : profile.first_name,
+            "lastName": profile.last_name
+        }, function(err, result) {
+              if (err) {
+                res.status(500).send({ message: err.message });
+              }
+              res.send({ token: createJWT(result) });
+            });
         });
       }
     });
