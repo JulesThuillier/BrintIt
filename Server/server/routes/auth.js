@@ -125,6 +125,8 @@ router.post('/google', function(req, res) {
     redirect_uri: req.body.redirectUri,
     grant_type: 'authorization_code'
   };
+    
+    console.log(req.body);
 
   // Step 1. Exchange authorization code for access token.
   request.post(accessTokenUrl, { json: true, form: params }, function(err, response, token) {
@@ -148,13 +150,20 @@ router.post('/google', function(req, res) {
             if (!user) {
               return res.status(400).send({ message: 'User not found' });
             }
-            user.google = profile.sub;
-            user.picture = user.picture || profile.picture.replace('sz=50', 'sz=200');
-            user.displayName = user.displayName || profile.name;
-            user.save(function() {
-              var token = createJWT(user);
-              res.send({ token: token });
+              
+            ser.insert({
+            "google" : profile.sub,
+            "picture": user.picture || profile.picture.replace('sz=50', 'sz=200'),
+            "email": user.email || profile.email,
+            "firstName" : user.first_name || profile.first_name,
+            "lastName": user.last_name || profile.last_name
+            }, function(err, result) {
+              if (err) {
+                res.status(500).send({ message: err.message });
+              }
+              res.send({ token: createJWT(result) });
             });
+            
           });
         });
       } else {
@@ -163,14 +172,19 @@ router.post('/google', function(req, res) {
           if (existingUser) {
             return res.send({ token: createJWT(existingUser) });
           }
-          var user = new User();
-          user.google = profile.sub;
-          user.picture = profile.picture.replace('sz=50', 'sz=200');
-          user.displayName = profile.name;
-          user.save(function(err) {
-            var token = createJWT(user);
-            res.send({ token: token });
-          });
+        
+          User.insert({
+            "google" : profile.sub,
+            "picture": profile.picture.replace('sz=50', 'sz=200'),
+            "email": profile.email,
+            "firstName" : profile.first_name,
+            "lastName": profile.last_name
+            }, function(err, result) {
+              if (err) {
+                res.status(500).send({ message: err.message });
+              }
+              res.send({ token: createJWT(result) });
+            });
         });
       }
     });
@@ -499,7 +513,7 @@ router.post('/facebook', function(req, res) {
             "email": profile.email,
             "firstName" : profile.first_name,
             "lastName": profile.last_name
-        }, function(err, result) {
+            }, function(err, result) {
               if (err) {
                 res.status(500).send({ message: err.message });
               }
