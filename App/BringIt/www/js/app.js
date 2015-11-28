@@ -47,14 +47,14 @@ angular.module('app', ['ionic', 'ionic-timepicker', 'ionic-datepicker', 'ionic.s
     $authProvider.authHeader = 'Authorization';
     $authProvider.authToken = 'Bearer';
     $authProvider.storageType = 'localStorage';
-  //  $authProvider.httpInterceptor = false;
+    $authProvider.httpInterceptor = false;
 
     if (ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
       $authProvider.cordova = true;
     }
     
-    $authProvider.facebook({
-      clientId: 'Facebook App ID'
+    $authProvider.facebook({       
+      clientId: '1269819853044211'
     });
 
     $authProvider.google({

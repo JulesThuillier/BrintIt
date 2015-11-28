@@ -421,6 +421,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
             opts.method = opts.method || 'POST';
 
             return $http(opts);
+           // return $http.post(utils.joinUrl(config.baseUrl, config.signupUrl), user, {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8', 'Accept':'*/*'});
         };
 
         return Oauth;
@@ -446,6 +447,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
           opts.headers = {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8', 'Accept':'*/*'};
 
           return $http(opts).then(function(response) {
+        //    return $http.post(utils.joinUrl(config.baseUrl, config.signupUrl), user, {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8', 'Accept':'*/*'}).then(function(response) {
             shared.setToken(response);
             return response;
           });
@@ -464,6 +466,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
           opts.headers = opts.headers || {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8', 'Accept':'*/*'};
 
           return $http(opts);
+          //return $http.post(utils.joinUrl(config.baseUrl, config.signupUrl), user, {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8', 'Accept':'*/*'});
         };
 
         return Local;
