@@ -125,8 +125,6 @@ router.post('/google', function(req, res) {
     redirect_uri: req.body.redirectUri,
     grant_type: 'authorization_code'
   };
-    
-    console.log(req.body);
 
   // Step 1. Exchange authorization code for access token.
   request.post(accessTokenUrl, { json: true, form: params }, function(err, response, token) {
@@ -138,6 +136,7 @@ router.post('/google', function(req, res) {
       if (profile.error) {
         return res.status(500).send({message: profile.error.message});
       }
+	console.log(profile);
       // Step 3a. Link user accounts.
       if (req.headers.authorization) {
         User.findOne({ google: profile.sub }, function(err, existingUser) {

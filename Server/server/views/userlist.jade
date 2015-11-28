@@ -1,14 +1,24 @@
 extends layout
 
 block content
-    h1.
-        User List
-    ul
-        each user, i in userlist
+    // Wrapper
+    #wrapper
+
+        // USER LIST
+        h2 User List
+        #userList
             table
-                tr
-                    td= user.id
-                    td= a(href="mailto:#{user.email}")= user.email
-                    td= user.first_name
-                    td= user.last_name
-                    td= user.picture
+                thead
+                    th ID
+                    th Email
+                    th First Name
+                    th Last Name
+                    th Picture
+                tbody
+                each user, i in userlist
+                    tr
+                        td= user._id
+                        td= user.email
+                        td= user.firstName
+                        td= user.lastName
+                        td= user.picture
