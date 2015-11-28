@@ -3,7 +3,7 @@ module.exports = {
   MONGO_URI: process.env.MONGO_URI || 'localhost',
 
   // OAuth 2.0
-  FACEBOOK_SECRET: process.env.FACEBOOK_SECRET || '',
+  FACEBOOK_SECRET: process.env.FACEBOOK_SECRET || '422d8d59c5f757c8973993284fcdd5f9 ',
   FOURSQUARE_SECRET: process.env.FOURSQUARE_SECRET || '',
   GOOGLE_SECRET: process.env.GOOGLE_SECRET || 'sFK1uSlClIJBTcB4i3wAG_iL',
   GITHUB_SECRET: process.env.GITHUB_SECRET || '',
