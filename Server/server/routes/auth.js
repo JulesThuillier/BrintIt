@@ -5,7 +5,7 @@ var bcrypt = require('bcrypt');
 var moment = require('moment');
 var logger = require('morgan');
 var jwt = require('jwt-simple');
-
+var request = require('request');
 
 /*
  |--------------------------------------------------------------------------
@@ -125,8 +125,6 @@ router.post('/google', function(req, res) {
     redirect_uri: req.body.redirectUri,
     grant_type: 'authorization_code'
   };
-    
-    console.log(req.body);
 
   // Step 1. Exchange authorization code for access token.
   request.post(accessTokenUrl, { json: true, form: params }, function(err, response, token) {
@@ -138,6 +136,7 @@ router.post('/google', function(req, res) {
       if (profile.error) {
         return res.status(500).send({message: profile.error.message});
       }
+	console.log(profile);
       // Step 3a. Link user accounts.
       if (req.headers.authorization) {
         User.findOne({ google: profile.sub }, function(err, existingUser) {
@@ -487,7 +486,6 @@ router.post('/facebook', function(req, res) {
     client_secret: config.FACEBOOK_SECRET,
     redirect_uri: req.body.redirectUri
   };
-
   // Step 1. Exchange authorization code for access token.
   request.get({ url: accessTokenUrl, qs: params, json: true }, function(err, response, accessToken) {
     if (response.statusCode !== 200) {
