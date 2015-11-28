@@ -8,7 +8,7 @@ block content
             table
                 tr
                     td= user.id
-                    td= a(href="mailto:#{user.email}")= user.email
+                    td a(href="mailto:#{user.email}")= user.email
                     td= user.first_name
                     td= user.last_name
                     td= user.picture

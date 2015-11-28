@@ -150,14 +150,18 @@ router.post('/google', function(req, res) {
             if (!user) {
               return res.status(400).send({ message: 'User not found' });
             }
-              
-            ser.insert({
+              console.log(profile);
+            User.insert({
             "google" : profile.sub,
-            "picture": user.picture || profile.picture.replace('sz=50', 'sz=200'),
-            "email": user.email || profile.email,
-            "firstName" : user.first_name || profile.first_name,
-            "lastName": user.last_name || profile.last_name
+            "picture": profile.picture.replace('sz=50', 'sz=200'),
+            "email": profile.email,
+            "displayName": profile.name,
+            "firstName" : profile.given_name,
+            "lastName": profile.family_name,
+            "country": profile.locale,
+            "gender": profile.gender
             }, function(err, result) {
+              if (err) {
               if (err) {
                 res.status(500).send({ message: err.message });
               }
@@ -172,13 +176,16 @@ router.post('/google', function(req, res) {
           if (existingUser) {
             return res.send({ token: createJWT(existingUser) });
           }
-        
+            console.log(profile);
           User.insert({
             "google" : profile.sub,
             "picture": profile.picture.replace('sz=50', 'sz=200'),
             "email": profile.email,
-            "firstName" : profile.first_name,
-            "lastName": profile.last_name
+            "displayName": profile.name,
+            "firstName" : profile.given_name,
+            "lastName": profile.family_name,
+            "country": profile.locale,
+            "gender": profile.gender
             }, function(err, result) {
               if (err) {
                 res.status(500).send({ message: err.message });
@@ -507,10 +514,12 @@ router.post('/facebook', function(req, res) {
             if (!user) {
               return res.status(400).send({ message: 'User not found' });
             }
+            console.log(profile);
             User.insert({
             "facebook" : profile.id,
             "picture": 'https://graph.facebook.com/' + profile.id + '/picture?type=large',
             "email": profile.email,
+            "displayName": profile.displayName,
             "firstName" : profile.first_name,
             "lastName": profile.last_name
             }, function(err, result) {
@@ -528,7 +537,7 @@ router.post('/facebook', function(req, res) {
             var token = createJWT(existingUser);
             return res.send({ token: token });
           }
-            
+            console.log(profile);
         User.insert({
             "facebook" : profile.id,
             "picture": 'https://graph.facebook.com/' + profile.id + '/picture?type=large',
