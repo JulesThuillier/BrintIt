@@ -5,5 +5,14 @@ block content
         User List
     ul
         each user, i in userlist
-            li
-                a(href="mailto:#{user.email}")= user.email
+            tr
+                td 
+                    user.id
+                td 
+                    a(href="mailto:#{user.email}")= user.email
+                td 
+                    user.first_name
+                td 
+                    user.last_name
+                td 
+                    user.picture
