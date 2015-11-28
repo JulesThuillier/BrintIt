@@ -5,7 +5,7 @@ var bcrypt = require('bcrypt');
 var moment = require('moment');
 var logger = require('morgan');
 var jwt = require('jwt-simple');
-
+var request = require('request');
 
 /*
  |--------------------------------------------------------------------------
@@ -469,7 +469,6 @@ router.post('/facebook', function(req, res) {
     client_secret: config.FACEBOOK_SECRET,
     redirect_uri: req.body.redirectUri
   };
-
   // Step 1. Exchange authorization code for access token.
   request.get({ url: accessTokenUrl, qs: params, json: true }, function(err, response, accessToken) {
     if (response.statusCode !== 200) {
