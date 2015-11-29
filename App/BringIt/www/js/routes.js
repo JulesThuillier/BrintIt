@@ -15,9 +15,9 @@ angular.module('app.routes', [])
       templateUrl: 'templates/myEvents.html',
       controller: 'myEventsCtrl',
       onEnter: function($state, $auth){
-      if(!$auth.isAuthenticated()){
-        $state.go('login');
-      }
+          if(!$auth.isAuthenticated()){
+            $state.go('login');
+          }
       }
     })
         
@@ -28,7 +28,12 @@ angular.module('app.routes', [])
     .state('login', {
       url: '/login',
       templateUrl: 'templates/login.html',
-      controller: 'loginCtrl'
+      controller: 'loginCtrl',
+      onEnter: function($state, $auth){
+          if($auth.isAuthenticated()){
+            $state.go('events');
+          }
+      }
     })
         
       
