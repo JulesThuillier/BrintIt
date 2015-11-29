@@ -28,83 +28,89 @@ angular.module('app.services', [])
       address: '',
       people: [],
       shoppinglist: []  
-  }
+  };
   
-  // Add new Item
-  event.addItemShoppingList = function(name, quantity) {
+    // Add new Item
+    event.addItemShoppingList = function(name, quantity) {
     if(!name || !quantity) return false;
-      
+
     var valueToPush = { };
     valueToPush.name = name;
     valueToPush.quantity = quantity;
     event.shoppinglist.unshift(valueToPush);
-  }
-  
-  // Update Item quantity
-  event.updateItemQuantityShoppingList = function(item, quantity) {
+    };
+
+    // Update Item quantity
+    event.updateItemQuantityShoppingList = function(item, quantity) {
     if(!item || !quantity) return false;
     event.shoppinglist[item]
     event.shoppinglist[item].quantity = quantity;
-  }
-  
-  // Remove Item
-  event.removeItemShoppingList = function(item) {
+    };
+
+    // Remove Item
+    event.removeItemShoppingList = function(item) {
     if(!item) return false;
     event.shoppinglist.splice(item, 1);
-  }
+    };
   
-  // Add a person to invitation list
-  event.addInvited = function(name, phone) {
+    // Add a person to invitation list
+    event.addInvited = function(name, phone) {
     var valueToPush = { };
       // TODO: Get first and last name
     valueToPush.firstname = name;
     valueToPush.laststname = '';
     valueToPush.phone = phone;
     event.people.unshift(valueToPush); 
-  }
-  
-  // Remove a person from invitation list
-  event.removeInvited = function(user) {
-    if(!user) return false;
-    event.people.splice(user, 1);
-  }
-
-    event.setTitle(title) = function() {
+    };
+    
+    event.setTitle = function(title) {
+        if(!title) return false;
         event.title = title;
     };
+  
+    // Remove a person from invitation list
+    event.removeInvited = function(user) {
+    if(!user) return false;
+    event.people.splice(user, 1);
+    };
 
-    event.setDescription(description) = function() {
+    
+
+    event.setDescription = function(description) {
+        if(!description) return false;
         event.description = description;
     };
 
-    event.setDate(date) = function() {
+    event.setDate = function(date) {
+        if(!date) return false;
         event.date = date;
     };
 
-    event.setAddress(address) = function() {
+    event.setAddress = function(address) {
+        if(!address) return false;
         event.address = address;
     };
     
-  // Send invitations
-  event.sendInvitations = function() {
+    // Send invitations
+    event.sendInvitations = function() {
       console.log("Factory Send invits");
     this.sendEventToDB();
-  }
+    };
   
-  event.sendEventToDB = function(){
+    event.sendEventToDB = function(){
       console.log("Factory upload event to DB");
       var parameter = JSON.stringify(event);
       $http.post(SERVER.url + "/events/new", parameter, {headers: {'Content-Type': 'application/json'} }).
       success(function(data){
         console.log(data);
-          
+
       }).
       error(function(data, status, headers, config) {
         console.log(data);
       });
-        
-  }
-  
+
+    };
+
   return event;
 })
   

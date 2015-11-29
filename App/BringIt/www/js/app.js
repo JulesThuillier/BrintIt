@@ -5,9 +5,14 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
+var handleOpenURL = function(url) {
+    window.localStorage.setItem("external_load", url);
+};
+
 angular.module('app', ['ionic', 'ionic-timepicker', 'ionic-datepicker', 'ionic.service.core', 'ionic.service.analytics', 'ionic.service.core', 'satellizer', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'ngCordova'])
 
 .run(function($ionicPlatform, $ionicAnalytics) {
+    
   $ionicPlatform.ready(function() {
       
   //  $ionicAnalytics.register();
@@ -28,6 +33,11 @@ angular.module('app', ['ionic', 'ionic-timepicker', 'ionic-datepicker', 'ionic.s
     if(window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
+    }   
+    if(typeof window.localStorage.getItem("external_load") !== undefined){
+        console.log(window.localStorage.getItem("external_load"));
+        window.localStorage.removeItem("external_load");
+        $location.path("/");
     }
   });
 })
@@ -51,16 +61,21 @@ angular.module('app', ['ionic', 'ionic-timepicker', 'ionic-datepicker', 'ionic.s
 
     if (ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
       $authProvider.cordova = true;
+     //   $authProvider.platform   = 'mobile';
+    // commonConfig.redirectUri = 'http://localhost/';
     }
     
     $authProvider.facebook({       
-      clientId: '1269819853044211'
+      clientId: '1269819853044211',
+       // redirectUri: 'http://localhost:8100/'
+        
     });
 
     $authProvider.google({
-      clientId: '762548628265-oketfgkinmk4annlk9jlppn1teueb859.apps.googleusercontent.com'
+      clientId: '762548628265-oketfgkinmk4annlk9jlppn1teueb859.apps.googleusercontent.com',
+       // redirectUri: 'http://localhost:8100/'
     });
-
+    
     $authProvider.github({
       clientId: 'GitHub Client ID'
     });
