@@ -57,23 +57,20 @@ angular.module('app', ['ionic', 'ionic-timepicker', 'ionic-datepicker', 'ionic.s
     $authProvider.authHeader = 'Authorization';
     $authProvider.authToken = 'Bearer';
     $authProvider.storageType = 'localStorage';
-    $authProvider.httpInterceptor = false;
+    $authProvider.httpInterceptor = true;
 
     if (ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
       $authProvider.cordova = true;
-     //   $authProvider.platform   = 'mobile';
-    // commonConfig.redirectUri = 'http://localhost/';
     }
     
     $authProvider.facebook({       
       clientId: '1269819853044211',
-       // redirectUri: 'http://localhost:8100/'
-        
+        redirectUri: 'http://localhost:8100/'      
     });
 
     $authProvider.google({
       clientId: '762548628265-oketfgkinmk4annlk9jlppn1teueb859.apps.googleusercontent.com',
-       // redirectUri: 'http://localhost:8100/'
+        redirectUri: 'http://localhost:8100/'
     });
     
     $authProvider.github({
