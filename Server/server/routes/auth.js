@@ -161,7 +161,6 @@ router.post('/google', function(req, res) {
             "gender": profile.gender
             }, function(err, result) {
               if (err) {
-              if (err) {
                 res.status(500).send({ message: err.message });
               }
               res.send({ token: createJWT(result) });
