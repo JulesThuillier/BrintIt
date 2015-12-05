@@ -21,7 +21,7 @@ router.post('/new', function(req, res) {
     //TODO : insert in DB, generate token, search for other users...
     
      // Submit to the DB
-    Events.insert({
+   /* Events.insert({
         req.body
     }, function (err, doc) {
         if (err) {
@@ -32,7 +32,7 @@ router.post('/new', function(req, res) {
             // And forward to success page
             res.send("Event added to Database");
         }
-    });
+    }); */
 });
 
 

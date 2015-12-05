@@ -82,6 +82,7 @@ angular.module('app.services', [])
     };
 
     event.setDate = function(date) {
+        console.log("Date set to : " + date);
         if(!date) return false;
         event.date = date;
     };
