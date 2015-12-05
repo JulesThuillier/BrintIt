@@ -115,7 +115,10 @@ router.post('/new', function(req, res) {
         }
         
         // Create a unique token for shadow user to invite them via SMS
-        if(typeof user.type != "undefined" && user.type == "shadowUser"){
+	var type = user.lastName;
+
+        if(type){
+	if(type == "shadowUser"){
             var newSMSInvitation = {};
             newSMSInvitation.user_id = user._id;
             newSMSInvitation.phone = user.phone;
@@ -127,7 +130,7 @@ router.post('/new', function(req, res) {
             newInvitation.id = user._id;
             newInvitation.token = newSMSInvitation.token;
             invitedList.push(newInvitation);
-        }
+        }}
         else {
             // List all users ids in the event
 	    var newInvitation = {};
