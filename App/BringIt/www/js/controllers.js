@@ -106,6 +106,10 @@ angular.module('app.controllers', ['ngCordova', 'ionic-timepicker'])
     
     $scope.sendInvitations = function() {
         console.log("Send invits");
+        EventCreator.setTitle($scope.details.title);
+        EventCreator.setDescription($scope.details.descrition);
+        EventCreator.setDate(date.toJSON());
+        EventCreator.setAddress($scope.details.address);
         EventCreator.sendInvitations();
     }
 
@@ -117,7 +121,8 @@ angular.module('app.controllers', ['ngCordova', 'ionic-timepicker'])
         var selectedTime = new Date(val * 1000);
         date.setUTCHours(selectedTime.getUTCHours());
         date.setUTCMinutes(selectedTime.getUTCMinutes());
-          console.log(date.toJSON());
+        console.log(date.toJSON());
+        EventCreator.setDate(date.toJSON());
         $scope.details.datetime = date.getUTCDate() + '/'+ (date.getUTCMonth()+1) + '/'+ date.getUTCFullYear() + "   " + date.getUTCHours() + 'h'+ date.getUTCMinutes();
       }
     }
@@ -145,7 +150,7 @@ angular.module('app.controllers', ['ngCordova', 'ionic-timepicker'])
         date.setUTCDate(val.getUTCDate());
           
         $scope.details.datetime = date.getUTCDate() + '/'+ (date.getUTCMonth()+1) + '/'+ date.getUTCFullYear() + "   " + date.getUTCHours() + 'h'+ date.getUTCMinutes();
-          
+           
         showTimePicker($scope.slots, $ionicPopup);
       }
     };
@@ -172,23 +177,6 @@ angular.module('app.controllers', ['ngCordova', 'ionic-timepicker'])
         dateFormat: 'dd-MM-yyyy', //Optional
         closeOnSelect: false //Optional
     };
-
-    $scope.setTitle = function() {
-        EventCreator.setTitle($scope.details.title);
-    };
-    
-    $scope.setDescription = function() {
-        EventCreator.setDescription($scope.details.descrition);
-    };
-    
-    $scope.setDate = function() {
-        EventCreator.setDate(date.toJson());
-    };
-    
-    $scope.setAddress = function() {
-        EventCreator.setAddress($scope.details.address);
-    };
-    
     
 })
    
@@ -343,6 +331,7 @@ angular.module('app.controllers', ['ngCordova', 'ionic-timepicker'])
     
     // Decrease item quantity
     $scope.quantityMinus = function(item) {
+        console.log("decreasing quantity");
         if($scope.data.items[item].quantity == 1){
             EventCreator.removeItemShoppingList(item);
             $scope.data.items.splice(item, 1);

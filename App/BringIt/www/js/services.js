@@ -70,13 +70,14 @@ angular.module('app.services', [])
   
     // Remove a person from invitation list
     event.removeInvited = function(user) {
-    if(!user) return false;
-    event.people.splice(user, 1);
+        if(!user) return false;
+        event.people.splice(user, 1);
     };
 
     
 
     event.setDescription = function(description) {
+        console.log("Description set to : " + description);
         if(!description) return false;
         event.description = description;
     };

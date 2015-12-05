@@ -9,12 +9,12 @@
 
             <label class="item item-input item-stacked-label">
                 <span class="input-label">Event's title</span>
-                <input type="text" placeholder="My awesome party !" ng-model="details.title" ng-change="setTitle()">
+                <input type="text" placeholder="My awesome party !" ng-model="details.title">
             </label>
 
             <label class="item item-input item-stacked-label">
                 <span class="input-label">Descrition</span> 
-                <textarea rows="4" placeholder="Descrition" ng-model="details.description" ng-change="setDescription()"></textarea>
+                <textarea rows="4" placeholder="Descrition" ng-model="details.description"></textarea>
             </label>
         </div>
         
@@ -27,13 +27,13 @@
             <label class="item item-input item-stacked-label">
                 <ionic-datepicker input-obj="datepickerObject">
                     <span class="input-label">Date & Time</span>
-                    <input type="text" placeholder="Date & Time" ng-model="details.datetime" ng-change="setDate()" ng-readonly="true">
+                    <input type="text" placeholder="Date & Time" ng-model="details.datetime" ng-readonly="true">
                 </ionic-datepicker>
             </label>
 
             <label class="item item-input item-stacked-label">
                 <span class="input-label">Address</span> 
-                <input type="text" placeholder="Address" ng-model="details.address" ng-change="setAddress()">
+                <input type="text" placeholder="Address" ng-model="details.address">
             </label>
         </div>
 
