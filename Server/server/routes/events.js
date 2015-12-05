@@ -62,9 +62,9 @@ router.get('/list', function(req, res, next) {
  |--------------------------------------------------------------------------
  */
 router.get('/get/:id', function(req, res, next) {
-    var eventid = request.params.id;
+    var eventid = req.params.id;
     console.log(eventid);
-    return res.status(401).send({ message: 'Event Id' : eventid });
+    return res.status(401).send({ message: 'Event Id' + eventid });
   /*  
   var id = req.body.user_id;
   var db = req.db;
