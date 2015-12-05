@@ -92,10 +92,11 @@ router.post('/signup', function(req, res) {
     bcrypt.hash(password, salt, function(err, hash) {
     //  password = hash;
 	        
-        User.insert({
+    User.insert({
         "firstName" : req.body.firstName,
         "lastName": req.body.lastName,
         "email": req.body.email,
+        "type": "realUser",
         "password": hash
     }, function(err, result) {
       if (err) {
@@ -158,6 +159,7 @@ router.post('/google', function(req, res) {
             "firstName" : profile.given_name,
             "lastName": profile.family_name,
             "country": profile.locale,
+            "type": "realUser",
             "gender": profile.gender
             }, function(err, result) {
               if (err) {
@@ -183,6 +185,7 @@ router.post('/google', function(req, res) {
             "firstName" : profile.given_name,
             "lastName": profile.family_name,
             "country": profile.locale,
+            "type": "realUser",
             "gender": profile.gender
             }, function(err, result) {
               if (err) {
@@ -518,7 +521,8 @@ router.post('/facebook', function(req, res) {
             "email": profile.email,
             "displayName": profile.displayName,
             "firstName" : profile.first_name,
-            "lastName": profile.last_name
+            "lastName": profile.last_name,
+            "type": "realUser",
             }, function(err, result) {
               if (err) {
                 res.status(500).send({ message: err.message });
@@ -540,7 +544,8 @@ router.post('/facebook', function(req, res) {
             "picture": 'https://graph.facebook.com/' + profile.id + '/picture?type=large',
             "email": profile.email,
             "firstName" : profile.first_name,
-            "lastName": profile.last_name
+            "lastName": profile.last_name,
+            "type": "realUser",
         }, function(err, result) {
               if (err) {
                 res.status(500).send({ message: err.message });

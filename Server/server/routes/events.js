@@ -9,6 +9,70 @@ router.get('/', function(req, res, next) {
 
 /*
  |--------------------------------------------------------------------------
+ | Generate Unique ID
+ |--------------------------------------------------------------------------
+ */
+
+// TODO : make sure its unique (or when searching the event in /get, check if the event is not passed)
+function generateUniqueId() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for( var i=0; i < 6; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    return text;
+}
+
+
+/*
+ |--------------------------------------------------------------------------
+ | Create a Shadow User
+ |--------------------------------------------------------------------------
+ */
+
+function createShadowUser(firstName, lastName, phone) {
+    var db = req.db;
+    var User = db.get('usercollection');
+    
+    // Check ther is no user with that phone number
+    var myUser = findUserByPhone(phone);
+      if(myUser){
+          console.log("There was an error while creating a shadow user. Code : 1, user already exists");
+          return myUser;
+      }
+
+        // Create a new user
+        User.insert({
+            "firstName" : firstName,
+            "lastName": lastName,
+            "phone": phone,
+            "type": "shadowUser"
+        }, function(err, result) {
+          if (err) {
+              console.log("There was an error while creating a shadow user. Code : 2");
+            return;
+          }
+            // Return the created user
+            return result;
+        });
+}
+
+
+/*
+ |--------------------------------------------------------------------------
+ | Find a User by its phone number
+ |--------------------------------------------------------------------------
+ */
+function findUserByPhone(phone){
+    var db = req.db;
+    var User = db.get('usercollection');
+    User.findOne({ phone: user.phone }, function(err, existingUser) {
+        if (existingUser) {
+          return existingUser;
+        }
+}
+
+/*
+ |--------------------------------------------------------------------------
  | Create new event
  |--------------------------------------------------------------------------
  */
@@ -16,23 +80,73 @@ router.post('/new', function(req, res) {
     console.log("Hello New Event : ");
     var db = req.db;
     var Events = db.get('eventcollection');
+    var User = db.get('usercollection');
     console.log(req.body);
     
-    //TODO : insert in DB, generate token, search for other users...
+    var data = req.body;
     
-     // Submit to the DB
-   /* Events.insert({
-        req.body
-    }, function (err, doc) {
+    var title = data.title;
+    var description = data.description;
+    var address = data.address;
+    var date = data.date;
+    var invited = data.people;
+    var shoppingList = data.shoppingList;
+        
+    var invitedList = [{}];
+    var smsInvitation = [{
+      user_id: '',
+      phone: '',
+      token: '', 
+    }];
+  
+        
+    for (person in invited) {
+        var firstName = person.firstName;
+        var lastName = person.lastName;
+        var phone = person.phone; 
+        
+        // We are checking if the user is in the database
+        var user = findUserByPhone(phone);
+        
+        // If not we create a shadow user
+        if(!user){
+            user = createShadowUser(firstName, lastName, phone);
+        }
+        
+        // Create a unique token for shadow user to invite them via SMS
+        if(user.type == "shadowUser"){
+            var newSMSInvitation = {};
+            newSMSInvitation.user_id = user._id;
+            newSMSInvitation.phone = user.phone;
+            newSMSInvitation.token = generateUniqueId();
+            smsInvitation.push(newSMSInvitation); 
+            
+            // List all users ids in the event
+            invitedList.push("id" : user._id, "token" : newSMSInvitation.token);
+        }
+        else {
+            // List all users ids in the event
+            invitedList.push("id" : user._id);
+        }        
+    }
+    
+    // Add Event to DB
+    Events.insert({
+        "title" = title,
+        "description" = description,
+        "address" = address,
+        "date" = date,
+        "invited" = invitedList,
+        "shoppingList" = shoppingList
+    }, function (err, result) {
         if (err) {
             // If it failed, return error
             res.send("There was a problem adding the event to the database.");
         }
         else {
-            // And forward to success page
-            res.send("Event added to Database");
+            return res.send(smsInvitation);      
         }
-    }); */
+    });
 });
 
 
@@ -63,19 +177,18 @@ router.get('/list', function(req, res, next) {
  */
 router.get('/get/:id', function(req, res, next) {
     var eventid = req.params.id;
-    console.log(eventid);
-    return res.status(401).send({ message: 'Event Id' + eventid });
-  /*  
-  var id = req.body.user_id;
-  var db = req.db;
-  var Events = db.get('eventcollection');
-// TODO: correct the search
-  User.findOne({ email: req.body.email }, {}, function(err, user) {
-    if (!user) {
-      return res.status(401).send({ message: 'Invalid email and/or password' });
+    console.log(eventid);  
+
+    var db = req.db;
+    var Events = db.get('eventcollection');
+    
+// TODO: Get all events with this ID in case other events have same ID. Check Date
+  Events.findOne({ invited: {token: eventid}}, function(err, event) {
+    if (!event) {
+      return res.status(401).send({ message: 'Event not found' });
     }
-  res.send('respond with a resource');
-  });*/
+    return res.send(event);
+  }); 
 });
 
 /*

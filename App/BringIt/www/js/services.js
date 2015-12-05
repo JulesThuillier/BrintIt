@@ -27,7 +27,7 @@ angular.module('app.services', [])
       date: '',
       address: '',
       people: [],
-      shoppinglist: []  
+      shoppingList: []  
   };
   
     // Add new Item
@@ -37,28 +37,28 @@ angular.module('app.services', [])
     var valueToPush = { };
     valueToPush.name = name;
     valueToPush.quantity = quantity;
-    event.shoppinglist.unshift(valueToPush);
+    event.shoppingList.unshift(valueToPush);
     };
 
     // Update Item quantity
     event.updateItemQuantityShoppingList = function(item, quantity) {
     if(!item || !quantity) return false;
-    event.shoppinglist[item]
-    event.shoppinglist[item].quantity = quantity;
+    event.shoppingList[item]
+    event.shoppingList[item].quantity = quantity;
     };
 
     // Remove Item
     event.removeItemShoppingList = function(item) {
     if(!item) return false;
-    event.shoppinglist.splice(item, 1);
+    event.shoppingList.splice(item, 1);
     };
   
     // Add a person to invitation list
     event.addInvited = function(name, phone) {
     var valueToPush = { };
       // TODO: Get first and last name
-    valueToPush.firstname = name;
-    valueToPush.laststname = '';
+    valueToPush.firstName = name;
+    valueToPush.laststName = '';
     valueToPush.phone = phone;
     event.people.unshift(valueToPush); 
     };
