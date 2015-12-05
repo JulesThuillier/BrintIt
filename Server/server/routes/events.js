@@ -52,6 +52,7 @@ function createShadowUser(req, firstName, lastName, phone) {
             return;
           }
             // Return the created user
+            console.log("User created");
             return result;
         });
 }
@@ -67,6 +68,7 @@ function findUserByPhone(req, phone){
     var User = db.get('usercollection');
     User.findOne({ phone: phone }, function(err, existingUser) {
         if (existingUser) {
+          console.log("User found by phone");
           return existingUser;
         }
     });
