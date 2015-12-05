@@ -20,19 +20,19 @@ router.post('/new', function(req, res) {
     
     //TODO : insert in DB, generate token, search for other users...
     
-/*  User.findOne({ email: req.body.email }, {}, function(err, user) {
-    if (!user) {
-      return res.status(401).send({ message: 'Invalid email and/or password' });
-    }
-      console.log("User found " + user.password);
-    bcrypt.compare(req.body.password, user.password, function(err, isMatch) {
-    //user.comparePassword(req.body.password, function(err, isMatch) {
-      if (!isMatch) {
-        return res.status(401).send({ message: 'Invalid email and/or password' });
-      }
-      res.send({ token: createJWT(user) });
+     // Submit to the DB
+    Events.insert({
+        req.body
+    }, function (err, doc) {
+        if (err) {
+            // If it failed, return error
+            res.send("There was a problem adding the event to the database.");
+        }
+        else {
+            // And forward to success page
+            res.send("Event added to Database");
+        }
     });
-  });*/
 });
 
 
@@ -52,9 +52,31 @@ router.get('/list', function(req, res, next) {
       return res.status(401).send({ message: 'Invalid email and/or password' });
     }
   res.send('respond with a resource');
+  });
 });
-    });
 
+
+/*
+ |--------------------------------------------------------------------------
+ | Get an event
+ |--------------------------------------------------------------------------
+ */
+router.get('/get/:id', function(req, res, next) {
+    var eventid = request.params.id;
+    console.log(eventid);
+    return res.status(401).send({ message: 'Event Id' : eventid });
+  /*  
+  var id = req.body.user_id;
+  var db = req.db;
+  var Events = db.get('eventcollection');
+// TODO: correct the search
+  User.findOne({ email: req.body.email }, {}, function(err, user) {
+    if (!user) {
+      return res.status(401).send({ message: 'Invalid email and/or password' });
+    }
+  res.send('respond with a resource');
+  });*/
+});
 
 /*
  |--------------------------------------------------------------------------
