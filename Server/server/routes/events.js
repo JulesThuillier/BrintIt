@@ -65,7 +65,7 @@ function createShadowUser(req, firstName, lastName, phone) {
 function findUserByPhone(req, phone){
     var db = req.db;
     var User = db.get('usercollection');
-    User.findOne({ phone: user.phone }, function(err, existingUser) {
+    User.findOne({ phone: phone }, function(err, existingUser) {
         if (existingUser) {
           return existingUser;
         }
