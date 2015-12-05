@@ -69,6 +69,7 @@ function findUserByPhone(phone){
         if (existingUser) {
           return existingUser;
         }
+    });
 }
 
 /*
@@ -122,22 +123,27 @@ router.post('/new', function(req, res) {
             smsInvitation.push(newSMSInvitation); 
             
             // List all users ids in the event
-            invitedList.push("id" : user._id, "token" : newSMSInvitation.token);
+	    var newInvitation = {};
+            newInvitation.id = user._id;
+            newInvitation.token = newSMSInvitation.token;
+            invitedList.push(newInvitation);
         }
         else {
             // List all users ids in the event
-            invitedList.push("id" : user._id);
+	    var newInvitation = {};
+            newInvitation.id = user._id;
+            invitedList.push(newInvitation);
         }        
     }
     
     // Add Event to DB
     Events.insert({
-        "title" = title,
-        "description" = description,
-        "address" = address,
-        "date" = date,
-        "invited" = invitedList,
-        "shoppingList" = shoppingList
+        "title": title,
+        "description": description,
+        "address": address,
+        "date": date,
+        "invited": invitedList,
+        "shoppingList": shoppingList
     }, function (err, result) {
         if (err) {
             // If it failed, return error
