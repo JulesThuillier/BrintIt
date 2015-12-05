@@ -29,12 +29,12 @@ function generateUniqueId() {
  |--------------------------------------------------------------------------
  */
 
-function createShadowUser(firstName, lastName, phone) {
+function createShadowUser(req, firstName, lastName, phone) {
     var db = req.db;
     var User = db.get('usercollection');
     
     // Check ther is no user with that phone number
-    var myUser = findUserByPhone(phone);
+    var myUser = findUserByPhone(req, phone);
       if(myUser){
           console.log("There was an error while creating a shadow user. Code : 1, user already exists");
           return myUser;
@@ -62,7 +62,7 @@ function createShadowUser(firstName, lastName, phone) {
  | Find a User by its phone number
  |--------------------------------------------------------------------------
  */
-function findUserByPhone(phone){
+function findUserByPhone(req, phone){
     var db = req.db;
     var User = db.get('usercollection');
     User.findOne({ phone: user.phone }, function(err, existingUser) {
@@ -106,11 +106,11 @@ router.post('/new', function(req, res) {
         var phone = person.phone; 
         
         // We are checking if the user is in the database
-        var user = findUserByPhone(phone);
+        var user = findUserByPhone(req, phone);
         
         // If not we create a shadow user
         if(!user){
-            user = createShadowUser(firstName, lastName, phone);
+            user = createShadowUser(req, firstName, lastName, phone);
         }
         
         // Create a unique token for shadow user to invite them via SMS
