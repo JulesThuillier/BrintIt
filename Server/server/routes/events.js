@@ -115,7 +115,7 @@ router.post('/new', function(req, res) {
         }
         
         // Create a unique token for shadow user to invite them via SMS
-        if(user.type == "shadowUser"){
+        if(user.type != null && user.type == "shadowUser"){
             var newSMSInvitation = {};
             newSMSInvitation.user_id = user._id;
             newSMSInvitation.phone = user.phone;
