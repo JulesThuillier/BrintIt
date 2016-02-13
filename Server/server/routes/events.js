@@ -52,7 +52,7 @@ function createShadowUser(req, firstName, lastName, phone) {
             return;
           }
             // Return the created user
-            console.log("User created");
+            console.log("User created " + result._id);
             return result;
         });
 }
@@ -101,23 +101,22 @@ router.post('/new', function(req, res) {
       phone: '',
       token: '', 
     }];
-  
-        
-    for (person in invited) {
-        var firstName = person.firstName;
-        var lastName = person.lastName;
-        var phone = person.phone; 
-        
+      
+    for (var i = 0; i < invited.length; i++) {
+        var firstName = invited[i].firstName;
+        var lastName = invited[i].lastName;
+        var phone = invited[i].phone; 
+	console.log(phone);        
         // We are checking if the user is in the database
         var user = findUserByPhone(req, phone);
-        
+	console.log(user._id);        
         // If not we create a shadow user
         if(!user){
             user = createShadowUser(req, firstName, lastName, phone);
         }
         
-        // Create a unique token for shadow user to invite them via SMS
-	var type = user.lastName;
+        // Create a unique token for shadow user to invite them via SM
+	var type = user.firstName;
 
         if(type){
 	if(type == "shadowUser"){
