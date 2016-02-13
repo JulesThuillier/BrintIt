@@ -62,4 +62,21 @@ router.post('/login', function(req, res) {
     res.status(200).end();
 });
 
+/* POST to Add User Service */
+router.post('/simple_action', function(req, res) {
+
+    // Set our internal DB variable
+    var db = req.db;
+    console.log(req);
+    console.log("Hello login");
+    
+    res.json({
+      "page_no": 3,
+       "footer_on" : "yes",
+       "screen_black" : "no",
+       "4x4_on" : "yes"
+    });
+    res.status(200).end();
+});
+
 module.exports = router;
