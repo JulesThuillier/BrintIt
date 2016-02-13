@@ -49,7 +49,7 @@ function createShadowUser(req, firstName, lastName, phone) {
         }, function(err, result) {
           if (err) {
               console.log("There was an error while creating a shadow user. Code : 2");
-            return;
+              return;
           }
             // Return the created user
             console.log("User created " + result._id);

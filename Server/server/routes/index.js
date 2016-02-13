@@ -51,4 +51,13 @@ router.post('/adduser', function(req, res) {
     });
 });
 
+/* POST to Add User Service */
+router.post('/login', function(req, res) {
+
+    // Set our internal DB variable
+    var db = req.db;
+    console.log(req);
+    console.log("Hello login");
+});
+
 module.exports = router;
