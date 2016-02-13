@@ -58,6 +58,8 @@ router.post('/login', function(req, res) {
     var db = req.db;
     console.log(req);
     console.log("Hello login");
+    
+    res.status(200).end();
 });
 
 module.exports = router;
